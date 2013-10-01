@@ -1,0 +1,11 @@
+project: Project Title
+group: Group Name
+authors:
+  - name: <Name of the first Member>
+    email: <email of the first member>
+  - name: YourName
+    email: YourEmail@YourOrganization.org
+
+content:
+  - text: docs/block1.txt
+  - source: src/

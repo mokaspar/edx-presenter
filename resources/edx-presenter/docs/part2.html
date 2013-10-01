@@ -1,0 +1,24 @@
+<h3>Available content elements</h3>
+<p>pdf, html, text, file, video, source
+
+<h3>Accepted sources</h3>
+<ul>
+	<li>local direcory</li>
+	<li>remote GIT repository: Any valid GIT url</li>
+	<li>remote compressed directories (zip, tar.gz), which are accessible using http/https</li>
+</ul>
+
+<h3>Options</h3>
+<p>Please check: <pre>./edx-presenter.py --help</pre>
+
+<h3>Examples</h3>
+<p>Process the project inside the directory ~/python/project1, which contains the groups.yaml file:
+<pre>./edx-presenter.py ~/python/project1</pre>
+A file called to_submit.tar.gz has been created, which can be uploaded to edx.
+If you want some debug information:
+<pre>./edx-presenter.py -v ~/python/project1</pre>
+Even more debug information:
+<pre>./edx-presenter.py -v ~/python/project1</pre>
+
+<h3>Remark</h3>
+<p>- All files are expected to be UTF-8 encoded.

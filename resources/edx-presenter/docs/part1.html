@@ -1,0 +1,31 @@
+<h3>usage:</h3> %prog [options] source1, [source2,...]
+
+<br><br><h3>Introduction</h3>
+This command line tool converts groups into an edx course.
+A group is a local directory or remote GIT repository containing a 'group.yaml' file (for more information on YAML, see <a href="http://en.wikipedia.org/wiki/YAML">wikipedia</a>). This file describes the content of the group and must contain the following properties:
+
+<pre>
+project: Project A
+group: Group 1
+authors:
+  - name: Your Name
+    email: yourEmail@Your.org
+content:
+  - pdf: docs/introduction.pdf
+  - html: docs/html1.html
+  - text: docs/simple.txt
+  - html: docs/html2.html
+  - file: docs/sample-data.zip
+  - video: http://www.youtube.com/watch?v=04ZOMuAg2bA
+  - source: src/
+</pre>
+
+The order order of the content is preserved and the same content type can be added multiple times.
+The paths are expected to be relative to the directory containing the 'group.yaml' file. 
+'pdf', 'html' and 'text' just process one file but 'source' processes all files in the directory and it's subdirectories.
+Note that you can use LaTeX in 'html' and 'text' files inside the usual \[ ... \] block.
+'video' currently supports just YouTube. Remember to make your video public, or at least unlisted.
+
+<br><br><h3>Getting Started</h3>
+There are two example projects available. The project 'edx-presenter' is actually this project and the project 'Skeleton' is a simpler one, which can be used to start a new project:
+

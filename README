@@ -1,0 +1,11 @@
+
+edx-presenter.py 
+----------------
+See the script for usage
+
+
+make.py
+-------
+This script creates two archvies:
+- edx-presenter.tar.gz is an archive that is 'edx-presenter.py' readable. This project describes this project.
+- to_submit.tar.gz is an edx submittable course, that contains the project edx-presenter and skeleton. This file is for testing of the two projects.
