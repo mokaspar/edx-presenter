@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
-# To see the full help, type: ./edx-presenter --help
+# To see the full help, type: ./edx-presenter.py --help
 
 """
 README
@@ -177,7 +177,7 @@ class ContentIntro:
 		html = '''<h2>%(project)s: %(group)s</h2>
 		''' % {'project':escape(self.parent.project()), 'group':escape(self.parent.group()) }
 
-		html += '<div class="authors">Authors:<ul>'
+		html += '<div class="authors">Author(s):<ul>'
 		for author in self.parent.authors():
 			html += '<li><a href="mailto:%(email)s">%(name)s</a></li>' %  { 'email':escape(author['email']), 'name':escape(author['name']) }
 		html += '</ul></div>'
