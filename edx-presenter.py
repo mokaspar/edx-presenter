@@ -248,8 +248,8 @@ class ContentFile:
 
 		(_ , filename) = os.path.split(self.path)
 		html = '''
-		<a href="/c4x/%(org)s/%(course)s/asset/%(file)s">Download %(filename)s</a>
-		''' % dict(course_attributes.items() + {'file':target_filename, 'filename':filename}.items())
+		<a href="/static/%(file)s">Download %(filename)s</a>
+		''' % {'file':target_filename, 'filename':filename}
 
 		with codecs.open(os.path.join(html_dir, "{0}.html".format(self.url_name())), mode='w', encoding='utf-8') as f:
 			f.write(html)
@@ -297,8 +297,8 @@ class ContentSource:
 		''' % {'path':escape(self.path) }
 
 		html += '''
-		<a href="/c4x/%(org)s/%(course)s/asset/%(file)s">Download source as archive</a>
-		''' % dict(course_attributes.items() + {'file':target_filename}.items())
+		<a href="/static/%(file)s">Download source as archive</a>
+		''' % {'file':target_filename}
 
 		for dirname, dirnames, filenames in os.walk(os.path.join(self.parent.path, self.path)):
 
@@ -419,8 +419,8 @@ class ContentPdf:
 		''' % dict(course_attributes.items() + {'file':target_filename}.items())
 		
 		html += '''
-		<a href="/c4x/%(org)s/%(course)s/asset/%(file)s">Download this Pdf</a>
-		''' % dict(course_attributes.items() + {'file':target_filename}.items())
+		<a href="/static/%(file)s">Download this Pdf</a>
+		''' % {'file':target_filename}
 
 		with codecs.open(os.path.join(html_dir, "{0}.html".format(self.url_name())), mode='w', encoding='utf-8') as f:
 			f.write(html)
