@@ -32,4 +32,4 @@ Credit
 ------
 This code has been written by Kaspar Mösinger for the course ['MAT101 Programming in Python'](http://www.vorlesungen.uzh.ch/HS13/suche/sm-50648594.modveranst.html) at the Departement of Mathematics of the University of Zurich.
 
-Special thanks goes to the instructor [Paul Olivier Dehaye](http://user.math.uzh.ch/dehaye/), for the idea and supervising my work.
+Special thanks goes to the instructor [Paul-Olivier Dehaye](http://user.math.uzh.ch/dehaye/), for the idea and supervising my work.
