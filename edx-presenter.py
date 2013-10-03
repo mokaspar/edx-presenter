@@ -586,7 +586,7 @@ def main():
 	parser.add_option("-v", "--verbose",
 	                  action="count", dest="verbose", default=False,
 	                  help="Increase verbosity (specify multiple times for more)")
-	parser.add_option("-o", "--output", default="to_submit.tar.gz",
+	parser.add_option("-o", "--output", default="to_import.tar.gz",
 	                  metavar="FILE", dest="output",
 	                  help="Specifies the filename of the generated edx-file relative to the working directory. [default: %default]")
 	parser.add_option("--tmp",
