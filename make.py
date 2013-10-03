@@ -61,7 +61,7 @@ logging.debug("tmp directory %s", tmp_dir)
 
 # Copy the template of the edx-presenter
 edx_dir = os.path.join(tmp_dir,'edx-presenter')
-shutil.copytree(os.path.join(script_directory, 'resources','edx-presenter'), edx_dir)
+shutil.copytree(os.path.join(script_directory, 'presentations','edx-presenter'), edx_dir)
 
 
 # Create a scr-directory: Empty directories are not preserved by GIT
@@ -72,7 +72,7 @@ shutil.copyfile(os.path.join(script_directory, 'edx-presenter.py'), os.path.join
 
 
 # Compress the skeleton project and add it
-skeleton_path = os.path.join(script_directory, 'resources', 'skeleton')
+skeleton_path = os.path.join(script_directory, 'presentations', 'skeleton')
 archive_skeleton_path = os.path.join(edx_dir, 'files', 'skeleton.tar.gz')
 if os.path.exists(archive_skeleton_path):
 	os.remove(archive_skeleton_path)
@@ -100,7 +100,7 @@ tar.close()
 
 
 # Run the edx-presenter script
-p = subprocess.Popen([os.path.join(script_directory,'edx-presenter.py'), '-v', edx_dir, os.path.join(script_directory,'resources','skeleton')])
+p = subprocess.Popen([os.path.join(script_directory,'edx-presenter.py'), '-v', edx_dir, os.path.join(script_directory,'presentations','skeleton')])
 p.wait()
 if p.returncode != 0:
 	logging.error("Failed to create the edx-file")
