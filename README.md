@@ -18,3 +18,17 @@ make.py
 This script creates two archives:
 - edx-presenter.tar.gz is an archive that is 'edx-presenter.py' readable. This presentation describes the edx-presenter project.
 - to_submit.tar.gz is an edx submittable course, that contains two presentations: one for each of the the edx-presenter and skeleton projects. This file is for testing of the two presentations.
+
+
+License
+-------
+
+The code in this repository is licensed under version 3 of the AGPL.
+
+Please see ``LICENSE.txt`` for details.
+
+
+Credit
+------
+This code has been written by Kaspar Mösinger for the course ['MAT101 Programming in Python'](http://www.vorlesungen.uzh.ch/HS13/suche/sm-50648594.modveranst.html) at the Departement of Mathematics of the University of Zurich.
+Special thanks goes to the instructor [Paul Olivier Dehaye](http://user.math.uzh.ch/dehaye/), for supervising my work.
