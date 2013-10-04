@@ -113,18 +113,6 @@ $ pip install pyyaml
 
 
 
-# Define global variables, which could be made changeable using options
-course_attributes = {
-	'url_name':"2013_Fall",
-	'org':'UZH',
-	'course':'PROJECTS',
-	'display_name':'Projects',
-
-	# Used for the google pdf-viewer
-	'server': 'edx-seminar.math.uzh.ch'
-	}
-
-
 def escape(string):
 	'''Escapes the string for HTML.'''
 	return cgi.escape(string).encode('ascii', 'xmlcharrefreplace')
@@ -414,13 +402,17 @@ class ContentPdf:
 		tree.write(os.path.join(html_dir, "{0}.xml".format(self.url_name())) )
 
 		# We have to double %% because % is a placeholder for the argument
-		html = '''
-		<iframe src="http://docs.google.com/viewer?url=http://%(server)s/c4x/%(org)s/%(course)s/asset/%(file)s&embedded=true"  style="border: none; width:100%%; height:780px;"></iframe>
-		''' % dict(course_attributes.items() + {'file':target_filename}.items())
+		html = ''
+		if courseURL == None:
+			logging.warning("courseURL is not specified. Therefore the inline pdf-viewer will be disabled.")
+		else:
+			html += '''
+			<iframe src="http://docs.google.com/viewer?url=%(courseURL)s/asset/%(file)s&embedded=true"  style="border: none; width:100%%; height:780px;"></iframe>
+			''' % {'courseURL':courseURL , 'file':target_filename}
 		
 		html += '''
-		<a href="/static/%(file)s">Download this Pdf</a>
-		''' % {'file':target_filename}
+		<a href="/static/%(file)s">Download Pdf %(name)s</a>
+		''' % {'file':target_filename, 'name':os.path.basename(self.path)}
 
 		with codecs.open(os.path.join(html_dir, "{0}.html".format(self.url_name())), mode='w', encoding='utf-8') as f:
 			f.write(html)
@@ -512,6 +504,8 @@ class Group:
 
 			if co is not None:
 				self.content.append(co)
+			else:
+				logging.info('Undefined source %s', c)
 
 		self.content.append(ContentDiscussion(self))
 
@@ -583,6 +577,9 @@ def main():
 
 	# The following block parses the arguments supplied.
 	parser = OptionParser(usage=usage)
+	parser.add_option("-u", "--course-url", default=None,
+	                  dest="course_url",
+	                  help="Specifies the public URL of the course. It is used for the inline Pdf viewer using Google-Docs. [default: %default]")
 	parser.add_option("-v", "--verbose",
 	                  action="count", dest="verbose", default=False,
 	                  help="Increase verbosity (specify multiple times for more)")
@@ -598,6 +595,8 @@ a temporary directory is created by the operating system and deleted.
 	                  )
 	(options, sources) = parser.parse_args()
 
+	global courseURL
+	courseURL = options.course_url
 
 	# Setting up the logging facility.
 	log_level = logging.WARNING
@@ -764,7 +763,7 @@ $ pip install requests
 
 		# Setup the edx directory structure 
 		# All the other files and directories inside are uuid named. We don't have to fear a name clash.
-		out_dir = os.path.join(tmp_dir, course_attributes['display_name'])
+		out_dir = os.path.join(tmp_dir, 'display_name')
 		# Delete the output directory, if it already exists
 		if os.path.exists(out_dir):
 			shutil.rmtree(out_dir)
@@ -772,9 +771,9 @@ $ pip install requests
 
 		# Create course.xml
 		course = Element('course');
-		course.set('url_name', course_attributes['url_name'])
-		course.set('org', course_attributes['org'])
-		course.set('course', course_attributes['course'])
+		course.set('url_name', 'url_name')
+		course.set('org', 'org')
+		course.set('course', 'course')
 		tree = ElementTree(course)
 		tree.write(os.path.join(out_dir, "course.xml"))
 
@@ -782,19 +781,19 @@ $ pip install requests
 		course_dir = os.path.join(out_dir, 'course')
 		os.makedirs(course_dir)
 		course = Element('course');
-		course.set('display_name', course_attributes['display_name'])
+		course.set('display_name', 'display_name')
 		for project in projects:
 			e = SubElement(course, 'chapter')
 			e.set('url_name', project.url_name())
 		tree = ElementTree(course)
-		tree.write(os.path.join(course_dir, "{0}.xml".format(course_attributes['url_name'])) )				
+		tree.write(os.path.join(course_dir, "{0}.xml".format('url_name')) )				
 
 		# Let each project and implicitly each group create it's files
 		for project in projects:
 			project.edx(out_dir)
 
 		# Archive the directory to the output file
-		logging.info("Creating the archive %s", options.output)
+		print "Creating the archive %(path)s" % { 'path':options.output}
 		tar = tarfile.open(options.output, "w:gz")
 		tar.add(out_dir, arcname=os.path.basename(out_dir))
 		tar.close()
