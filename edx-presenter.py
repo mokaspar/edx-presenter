@@ -299,7 +299,7 @@ class ContentSource:
 
 				path_full = os.path.join(dirname, filename)
 				# This path is relative to the group definition
-				path_relative = path_full[len(self.parent.path)+1:]
+				path_relative = path_full[len(self.parent.path):]
 
 				html += '<h3>%(path)s</h3>\n' % {'path':escape(path_relative)}
 
