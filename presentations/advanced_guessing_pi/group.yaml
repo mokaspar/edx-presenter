@@ -1,0 +1,10 @@
+project: Example Projects
+group: pi and Monte Carlo
+authors:
+  - name: Paul-Olivier Dehaye
+    email: paul-olivier.dehaye@math.uzh.ch
+
+content:
+  - html: explanations/montecarlo.html
+  - file: img/output-15-100.png
+  - source: src/

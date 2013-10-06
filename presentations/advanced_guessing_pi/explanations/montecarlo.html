@@ -1,0 +1,12 @@
+<p>My goal here is to compare the accuracy of the Monte-Carlo methods for guessing \(\pi\) in two and three dimensions.</p>
+<p>The idea in two dimensions is to use the fact that \(\pi/4\) equals the probability that a point in \(\mathbb{R}^2\) with coordinates picked uniformly in \([-1,1]\) sits inside the unit disc. We approximate the probability experimentally, by performing successive trials.&nbsp;</p>
+<p>In three dimensions, the idea is the same, except that this time we use the formula for the volume of a sphere, given by \(\frac{4}{3} \pi R^3\). A point in&nbsp;&nbsp;\([-1,1]^3\) has probability \(\frac{4}{3 \cdot 8} = \frac{1}{6}\) to sit within the unit sphere.&nbsp;</p>
+<p>Which method would be more efficient? In order to compare, we need ground truth, and this will be given by</p>
+<p><code>import math</code><br /><code>math.pi</code></p>
+<p>We now use the two methods separately. For each method, we look at the deviation from the ground truth when using a batch of \(2^n\) sample points.&nbsp;We take 100 such batches for each \(n\), and average the square of the deviations (this is thus the experimental variance). Finally, based on preliminary observations, we take the logarithm of this variance. We take \(n\) between 0 and 20, so in the highest range we have 100 batches of around \(10^6\) points!&nbsp;</p>
+<p>The final output is given by two lists of these logarithms of the variance, one for each method for increasing batch sizes.</p>
+<p>A sample output is as follows:</p>
+<p><code>For 100 batches of sizes increasing up to 2**15 points in dimension 2:</code><br /> <code>[0.9050615219579649, 0.1709406220154236, -0.6259768187518149, -0.9951377461343137, -1.9970553203917603, -2.575914056622598, -2.86855724415651, -3.8194328660265144, -4.675553324777, -5.456636322952203, -5.828982339204236, -6.413781574059799, -7.463046808151437, -8.270316136619714, -8.809383183309661]</code><br /><code>For 100 batches of sizes increasing up to 2**15 points in dimension 3:</code><br /><code>[2.1937825630912275, 1.6206937923072178, 0.9953161462961647, -0.13946692317731724, -0.5102586571651775, -1.2792651735511287, -2.0097419614326575, -2.8737377989797603, -3.472737300108391, -4.028637101520274, -4.801334039186612, -5.534127006146604, -6.164554654830539, -6.828435535049628, -7.5418485871946235]</code></p>
+<p>&nbsp;We observe that the approximation in dimension 2 is better than in dimension 3, for a given batch size, but the rate of convergence seems to be the same.</p>
+<p>&nbsp;</p>
+
