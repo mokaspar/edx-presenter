@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
-# To see the full help, type: ./edx-presenter.py --help
+# To see the full help, type: ./mat101-presenter.py --help
 
 """
 README
