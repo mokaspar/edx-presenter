@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
+# Version 1.01
+# Official repo: https://github.com/pdehaye/edx-presenter
+# (a fork of mokaspar's release)
+
+# Originally authored by mokaspar (edx-presenter.py), 
+# tailored for mat101 by Paul-Olivier Dehaye (mat101-presenter.py)
+
+
 
 # To see the full help, type: ./mat101-presenter.py --help
 
@@ -25,6 +33,7 @@ group: Group 1
 authors:
   - name: mokaspar
     email: mokaspar@gmail.com
+    edx: NotAvailable
 content:
   - pdf: docs/introduction.pdf
   - html: docs/html1.html
@@ -72,6 +81,7 @@ Contains the __main__ method and does the GIT handling
 
 DISPLAY_NAME = "MAT101 projects"
 ORG_NAME = "IMATHatUZH"
+PROFILE_BASE = "http://edx.math.uzh.ch/courses/IMATHatUZH/MAT101/Fall_2013/wiki/MAT101/profiles/"
 
 # Handles command line arguments
 from optparse import OptionParser
@@ -169,7 +179,14 @@ class ContentIntro:
 
         html += '<div class="authors">Author(s):<ul>'
         for author in self.parent.authors():
-            html += '<li><a href="mailto:%(email)s">%(name)s</a></li>' %  { 'email':escape(author['email']), 'name':escape(author['name']) }
+            profile_URL = PROFILE_BASE + escape(author['edx']) + "/"
+            print profile_URL
+            html += '<li><a href="mailto:%(email)s">%(name)s</a> AKA <a href="%(profile_URL)s">%(edx)s</a></li>' %  {
+                'email':escape(author.get('email',"")), 
+                'name':escape(author['name']), 
+                'edx':escape(author['edx']), 
+                'profile_URL':profile_URL}
+
         html += '</ul></div>'
 
         with codecs.open(os.path.join(html_dir, "{0}.html".format(self.url_name())), mode='w', encoding='utf-8') as f:

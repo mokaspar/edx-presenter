@@ -1,10 +1,12 @@
-project: Project Title
-group: Group Name
+project: Example Projects
+group: Skeleton example
 authors:
   - name: <Name of the first Member>
     email: <email of the first member>
+    edx: UnknownMember
   - name: YourName
     email: YourEmail@YourOrganization.org
+    edx: Unavailable
 
 content:
   - text: docs/block1.txt

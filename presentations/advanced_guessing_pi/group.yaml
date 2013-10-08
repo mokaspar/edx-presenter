@@ -3,6 +3,7 @@ group: pi and Monte Carlo
 authors:
   - name: Paul-Olivier Dehaye
     email: paul-olivier.dehaye@math.uzh.ch
+    edx: pdehaye
 
 content:
   - html: explanations/montecarlo.html
