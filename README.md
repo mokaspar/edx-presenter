@@ -1,7 +1,7 @@
-Edx-presenter
-=============
+mat101-presenter
+================
 
-Mat101-presenter.py is a python script that makes it possible to easily host virtual project presentations on the [OpenedX platform](https://github.com/edX). Presentations can consist of several components, such as HTML files, youtube videos, python source code and data files. To simplify the formatting for students, presentations are always held on just one page (i.e a vertical in edX parlance). A discussion is always appended.
+Mat101-presenter.py is a customization of edx-presenter.py, a python script that makes it possible to easily host virtual project presentations on the [OpenedX platform](https://github.com/edX). Presentations can consist of several components, such as HTML files, youtube videos, python source code and data files. To simplify the formatting for students, presentations are always held on just one page (i.e a vertical in edX parlance). A discussion is always appended.
 
 With the input of a few data files and one configuration file, mat101-presenter.py generates all the XML files (actually bundled in a .tar.gz) that are needed for an edX course. This bundle can then be imported into a blank edX course. The original input can be given either as a git repository, as a folder, as an archive, locally or remotely (URL). Multiple sources are allowed. 
 
