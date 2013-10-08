@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
-# Version 1.01
+VERSION = "1.0.2"
 # Official repo: https://github.com/pdehaye/edx-presenter
 # (a fork of mokaspar's release)
 
@@ -840,6 +840,7 @@ $ pip install requests
 
 
 if __name__ == '__main__':
+    print "This is mat101-presenter, version ", VERSION
     main()
 
 
