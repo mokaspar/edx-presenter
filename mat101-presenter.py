@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 # Official repo: https://github.com/pdehaye/edx-presenter
 # (a fork of mokaspar's release)
 
@@ -145,7 +145,9 @@ class ContentDiscussion:
         discussion_dir = os.path.join(out_dir, 'discussion')
         if not os.path.exists(discussion_dir):
             os.makedirs(discussion_dir)
-        discussion = Element('discussion', {'discussion_id':self.url_name()});
+        discussion = Element('discussion', {'discussion_id':self.url_name(), 
+                                            'discussion_category': self.parent.project(), 
+                                            'discussion_target': self.parent.group() })
         tree = ElementTree(discussion)
         tree.write(os.path.join(discussion_dir, "{0}.xml".format(self.url_name())) )
 
@@ -180,7 +182,7 @@ class ContentIntro:
         html += '<div class="authors">Author(s):<ul>'
         for author in self.parent.authors():
             profile_URL = PROFILE_BASE + escape(author['edx']) + "/"
-            print profile_URL
+            print "Please check that the following profile exists", profile_URL
             html += '<li><a href="mailto:%(email)s">%(name)s</a> AKA <a href="%(profile_URL)s">%(edx)s</a></li>' %  {
                 'email':escape(author.get('email',"")), 
                 'name':escape(author['name']), 
@@ -307,8 +309,15 @@ class ContentSource:
         <a href="/static/%(file)s">Download source as archive</a>
         ''' % {'file':target_filename}
 
-        for dirname, dirnames, filenames in os.walk(os.path.join(self.parent.path, self.path)):
+        if self.path[-3:] == ".py":
+            # Student did not follow directions and put a link to a single file
+            # We simulate the output of os.walk:
+            tmp_path = os.path.split(os.path.join(self.parent.path, self.path))
+            cleaned_path = [(os.path.join(tmp_path[:-1][0]), None, [tmp_path[-1]])]
+        else:
+            cleaned_path = os.walk(os.path.join(self.parent.path, self.path))
 
+        for dirname, dirnames, filenames in cleaned_path:
             # Process each file
             for filename in filenames:
 
@@ -539,7 +548,7 @@ class Group:
 
     def url_name(self):
         """Just keeps the basic ASCII characters: It removes any whitespaces and umlauts."""
-        return re.sub(r'\W+', '', self.project() + '_' + self.group() )
+        return re.sub(r'\W+', '', (self.project() + '__' + self.group()).replace(" ","_") )
 
     def __repr__(self):
         return "<Group '{0}/{1}'>".format(escape(self.project()), escape(self.group()))
@@ -765,13 +774,6 @@ $ pip install requests
 
 
             logging.info("Processing %s", path)
-            print "Creating the group archive %(path)s" % { 'path':path}
-            clean_path = os.path.split(path)
-            if clean_path[-1] == "":
-                clean_path = clean_path[:-1]
-            tar = tarfile.open("__".join(clean_path)+".tar.gz", "w:gz")
-            tar.add(path)
-            tar.close()
             
             # We load the group definition and add it to the corresponding group.            
             g = Group(path)
@@ -779,6 +781,13 @@ $ pip install requests
             if g.project() not in projects:
                 projects[g.project()] = Project(g.project())
             projects[g.project()].append(g)
+
+            print "Archiving %(path)s as %(url_name)s" % { 'path':path, 'url_name':g.url_name()}
+            tar = tarfile.open(g.url_name()+".tar.gz", "w:gz")
+            
+            tar.add(path, arcname = g.url_name())
+            tar.close()
+
 
 
         # Sort the projects alphabetically
@@ -842,6 +851,7 @@ $ pip install requests
 if __name__ == '__main__':
     print "This is mat101-presenter, version ", VERSION
     main()
+    print "\n\nPlease TEST your project on a sandbox before submitting."
 
 
 
