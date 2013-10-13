@@ -310,7 +310,7 @@ class ContentSource:
         ''' % {'file':target_filename}
 
         if self.path[-3:] == ".py":
-            # Student did not follow directions and put a link to a single file
+            # Link to a single file
             # We simulate the output of os.walk:
             tmp_path = os.path.split(os.path.join(self.parent.path, self.path))
             cleaned_path = [(os.path.join(tmp_path[:-1][0]), None, [tmp_path[-1]])]
