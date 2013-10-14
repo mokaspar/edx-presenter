@@ -449,6 +449,47 @@ class ContentPdf:
         "Adds the XML element pointing to this resoure to the vertical."
         e = SubElement(xml, 'html', {'url_name':self.url_name()})
 
+class ContentImg:
+    def __init__(self, parent, path):
+        logging.debug("ContentImg:__init__ %s", path)
+        self.parent = parent
+        self.path = path
+        self.file = os.path.split(path)[-1]
+
+    def url_name(self):
+        return re.sub(r'\W+', '', self.parent.url_name() + '_' + self.path)
+
+    def edx(self, out_dir):
+        # Copy the image to the static directory
+        static_dir = os.path.join(out_dir, 'static')
+        if not os.path.exists(static_dir):
+            os.makedirs(static_dir)
+        # In order to get an unique filename inside edx, we have to prefix the project and group name
+        target_filename = self.url_name()+self.file
+        target_path = os.path.join(static_dir,target_filename)
+        shutil.copyfile(os.path.join(self.parent.path, self.path), target_path);
+
+        html_dir = os.path.join(out_dir, 'html')
+        if not os.path.exists(html_dir):
+            os.makedirs(html_dir)
+        html = Element('html', {'filename':self.url_name(), 'display_name':"Img"});
+        tree = ElementTree(html)
+        tree.write(os.path.join(html_dir, "{0}.xml".format(self.url_name())) )
+
+        # We have to double %% because % is a placeholder for the argument
+        html = '<img src="/static/%(file)s">' % {'file':target_filename}
+        
+        html += '''<br>
+        <a href="/static/%(file)s">Download Image %(name)s</a>
+        ''' % {'file':target_filename, 'name':os.path.basename(self.path)}
+
+        with codecs.open(os.path.join(html_dir, "{0}.html".format(self.url_name())), mode='w', encoding='utf-8') as f:
+            f.write(html)
+
+    def parent_tag(self, xml):
+        "Adds the XML element pointing to this resoure to the vertical."
+        e = SubElement(xml, 'html', {'url_name':self.url_name()})
+
 
 # --- Part 2 -----------------------------------------------------------------
 
@@ -528,6 +569,8 @@ class Group:
                 co = ContentPdf(self, c['pdf'])
             if 'file' in c:
                 co = ContentFile(self, c['file'])
+            if 'img' in c:
+                co = ContentImg(self, c['img'])
 
 
             if co is not None:
