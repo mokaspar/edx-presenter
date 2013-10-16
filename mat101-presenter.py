@@ -454,7 +454,6 @@ class ContentImg:
         logging.debug("ContentImg:__init__ %s", path)
         self.parent = parent
         self.path = path
-        self.file = os.path.split(path)[-1]
 
     def url_name(self):
         return re.sub(r'\W+', '', self.parent.url_name() + '_' + self.path)
@@ -465,7 +464,10 @@ class ContentImg:
         if not os.path.exists(static_dir):
             os.makedirs(static_dir)
         # In order to get an unique filename inside edx, we have to prefix the project and group name
-        target_filename = self.url_name()+self.file
+        # We cannot use the filename, because it may contain characters, that have to be escaped.
+        # Therefore we just add the extension, which is expected to contain [a-z][A-Z][0-9].
+        _, fileExtension = os.path.splitext(self.path)
+        target_filename = self.url_name()+fileExtension
         target_path = os.path.join(static_dir,target_filename)
         shutil.copyfile(os.path.join(self.parent.path, self.path), target_path);
 
